@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#064E3B">
+<title>BIFA BOOKS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="config.js"></script>
+<style>
+:root{--bg:#F4F6F3;--ink:#0B1512;--mut:#62736B;--em:#0A7A58;--dk:#064E3B;--gold:#F5B82E;--card:#fff;--line:#E1E8E3;--red:#C23B2A}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{font:14px/1.5 Figtree,system-ui,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:104px;overscroll-behavior-y:contain}
+h1,h2,h3,.price,.big{font-family:"Bricolage Grotesque",Figtree,sans-serif}
+button{font:inherit;cursor:pointer;border:0;color:inherit;background:none;transition:transform .12s}button:active{transform:scale(.97)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+img{display:block;background:#DCE6E0}
+.top{background:linear-gradient(160deg,var(--dk),var(--em));color:#fff;padding:14px 18px 18px;border-radius:0 0 26px 26px;position:relative;overflow:hidden}
+.top:after{content:"";position:absolute;right:-60px;top:-70px;width:200px;height:200px;border-radius:50%;background:var(--gold);opacity:.16}
+.bar{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1}
+.who{display:flex;gap:12px;align-items:center}.who i{width:38px;height:38px;border-radius:50%;background:var(--gold);color:var(--dk);font:800 16px "Bricolage Grotesque";display:grid;place-items:center;font-style:normal}
+.who h1{font-size:16px;line-height:1.15;font-weight:700}.who small{opacity:.8;font-size:12px}
+.pill{background:rgba(255,255,255,.16);border-radius:99px;padding:6px 12px;font-weight:600;font-size:12px;margin-left:6px;color:#fff;text-decoration:none;display:inline-block}
+.search{position:relative;z-index:1;margin-top:14px;width:100%;padding:12px 16px 12px 44px;border-radius:14px;border:0;font:inherit;font-size:14px;color:var(--ink);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' stroke='%2362736B' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='9' cy='9' r='6'/%3E%3Cpath d='m14 14 4 4'/%3E%3C/svg%3E") 15px center no-repeat}
+.hero{display:flex;gap:14px;overflow-x:auto;padding:18px 18px 8px;scroll-snap-type:x mandatory;scrollbar-width:none}.hero::-webkit-scrollbar{display:none}
+.feat{flex:0 0 88%;scroll-snap-align:center;border-radius:28px;overflow:hidden;position:relative;color:#fff;text-align:left;display:flex;gap:16px;align-items:center;padding:16px;background:var(--dk);min-height:164px;box-shadow:0 10px 22px -12px rgba(6,78,59,.5)}
+.fbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(26px) saturate(1.3);transform:scale(1.5);opacity:.6}
+.feat:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,40,30,.78),rgba(6,40,30,.25))}
+.feat>*:not(.fbg){position:relative}.fc{width:88px;height:122px;border-radius:10px;object-fit:cover;flex:none;box-shadow:0 18px 30px -8px rgba(0,0,0,.6);transform:rotate(-3deg)}
+.feat h2{font-size:17px;line-height:1.2;font-weight:700;margin:8px 0 12px;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.badge{background:var(--gold);color:var(--ink);border-radius:99px;padding:3px 9px;font-size:11px;font-weight:700}
+.cta{display:inline-block;background:#fff;color:var(--dk);border-radius:99px;padding:7px 14px;font-weight:700;font-size:12.5px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 18px 10px;scrollbar-width:none;position:sticky;top:0;z-index:5;background:var(--bg)}.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:7px 14px;border-radius:99px;background:var(--card);border:1px solid var(--line);font-weight:500;font-size:13px}.chip.on{background:var(--dk);color:#fff;border-color:var(--dk)}
+.grid{display:grid;grid-template-columns:1fr;gap:14px;padding:2px 18px}.grid .sk{aspect-ratio:auto;height:124px}
+.card{background:var(--card);border-radius:22px;overflow:hidden;text-align:left;box-shadow:0 8px 22px -14px rgba(11,21,18,.45)}
+.cvw{position:relative;aspect-ratio:3/4;overflow:hidden}.cvw{background:#E9EFEB}.cvw img{width:100%;height:100%;object-fit:contain}
+.tag{position:absolute;left:8px;top:8px;background:rgba(11,21,18,.7);color:#fff;border-radius:99px;padding:3px 9px;font-size:11px;font-weight:700}
+.cb{padding:11px 12px 13px}.cb h3{font-size:15px;line-height:1.2;min-height:36px;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pr{display:flex;justify-content:space-between;align-items:center;margin-top:8px}.price{font-weight:700;font-size:15px;color:var(--em)}.price small{font:500 12px Figtree;color:var(--mut)}
+.go{width:30px;height:30px;border-radius:50%;background:var(--dk);color:#fff;display:grid;place-items:center;font-style:normal;font-weight:700;font-size:18px}.own{font-size:12px;font-weight:600;color:var(--mut)}
+.sk{background:linear-gradient(90deg,#E4EAE6 25%,#F1F4F2 50%,#E4EAE6 75%);background-size:200% 100%;animation:sh 1.2s infinite;border-radius:22px;aspect-ratio:3/4.6}@keyframes sh{to{background-position:-200% 0}}
+.empty{text-align:center;color:var(--mut);padding:44px 24px;grid-column:1/-1}
+nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));display:flex;gap:4px;background:var(--ink);border-radius:99px;padding:6px;box-shadow:0 14px 30px -10px rgba(0,0,0,.55);z-index:6}
+nav button{display:flex;gap:7px;align-items:center;padding:9px 16px;border-radius:99px;color:#9DB0A6;font-weight:600;font-size:13px}nav button.on{background:var(--gold);color:var(--ink)}
+.ov{position:fixed;inset:0;background:rgba(6,20,15,.6);display:flex;align-items:flex-end;z-index:9}
+.sheet{background:var(--bg);width:100%;max-height:93vh;overflow:auto;border-radius:30px 30px 0 0;animation:up .24s cubic-bezier(.2,.8,.2,1)}
+@keyframes up{from{transform:translateY(60px);opacity:.3}}@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+.sh{position:relative;padding:24px 18px 16px;text-align:center;background:var(--dk);overflow:hidden}.sh .fbg{opacity:.5}.sh img.cover{position:relative;width:150px;aspect-ratio:3/4;object-fit:cover;border-radius:14px;margin:auto;box-shadow:0 20px 34px -10px rgba(0,0,0,.65)}
+.sb{padding:18px 18px calc(24px + env(safe-area-inset-bottom))}.sb h2{font-size:19px;line-height:1.25;font-weight:700;margin-bottom:6px}.sb p{color:#33443C;white-space:pre-wrap;margin:12px 0 20px}
+.btn{display:block;width:100%;padding:14px;border-radius:16px;background:var(--em);color:#fff;font-weight:700;font-size:15px;text-align:center;box-shadow:0 10px 20px -10px var(--em)}.btn:disabled{opacity:.55;box-shadow:none}.btn.alt{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none;margin-top:10px}
+.m{display:block;width:100%;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:14px;margin-bottom:10px}.m.on{border-color:var(--em);background:#EAF5F0}
+.m b{display:flex;align-items:center;gap:10px}.m b:before{content:"";width:12px;height:12px;border-radius:50%;background:var(--c)}.acc{display:flex;justify-content:space-between;align-items:center;margin:10px 0 4px;font-size:16px;font-weight:700;letter-spacing:.3px}
+.acc span{font-size:13px;background:var(--gold);padding:5px 12px;border-radius:99px;letter-spacing:0}
+label{display:block;font-weight:600;font-size:13px;margin:14px 0 6px}input[type=text]{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);font:inherit;font-size:14px}
+.drop{display:block;border:2px dashed #9DB5A9;border-radius:18px;padding:18px;text-align:center;color:var(--mut);cursor:pointer;font-weight:400}.drop img{max-height:190px;margin:auto;border-radius:10px}
+.err{color:var(--red);font-weight:700;margin:10px 0}.ok{text-align:center;padding:26px 0}.ok .tick{width:64px;height:64px;border-radius:50%;background:var(--em);color:#fff;font-size:34px;display:grid;place-items:center;margin:auto;animation:pop .5s cubic-bezier(.2,1.6,.4,1)}@keyframes pop{from{transform:scale(0)}}.ok h2{margin:14px 0 4px}
+.row{display:flex;gap:12px;background:var(--card);border-radius:18px;padding:12px;margin:10px 18px 0;align-items:center;box-shadow:0 8px 22px -16px rgba(11,21,18,.5)}.row img{width:50px;height:66px;border-radius:9px;object-fit:cover}.row div{flex:1}
+.st{font-size:11px;font-weight:700;padding:5px 11px;border-radius:99px}.st.pending{background:#FFF1CC;color:#7A5600}.st.approved{background:#D9F2E5;color:var(--dk)}.st.rejected{background:#FBE0DC;color:var(--red)}
+.pg{position:fixed;inset:0;background:#FAF8F3;overflow:auto;z-index:9;animation:up .22s ease;padding-bottom:calc(30px + env(safe-area-inset-bottom))}
+.bk{position:fixed;top:calc(12px + env(safe-area-inset-top));left:14px;z-index:3;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.94);box-shadow:0 4px 14px rgba(0,0,0,.25);font-size:22px}
+.hero2{position:relative;margin:12px;border-radius:30px;overflow:hidden;background:var(--dk);min-height:260px;display:grid;place-items:center;padding:60px 0 24px}
+.hero2 .fbg{opacity:.55}
+.pc{position:relative;max-width:76%;max-height:60vh;width:auto;height:auto;border-radius:12px;box-shadow:0 24px 40px -10px rgba(0,0,0,.65)}
+.bd{position:absolute;top:16px;padding:6px 12px;border-radius:99px;font-weight:700;font-size:11px;color:#fff;z-index:2}
+.bd.l{left:66px;background:#7C3AED}.bd.r{right:16px;background:rgba(11,21,18,.75)}
+.cta2{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 12px;width:calc(100% - 24px);padding:14px;border-radius:18px;background:#111;color:#fff;font-weight:700;font-size:15px}
+.shr{display:flex;justify-content:center;gap:12px;margin:16px 0}
+.shr button{width:46px;height:46px;border-radius:14px;background:#fff;border:1px solid var(--line);font-size:18px}
+.info{margin:0 12px;background:#fff;border-radius:26px;padding:18px;border:1px solid var(--line)}
+.rw{display:flex;justify-content:space-between;align-items:center}
+.dg{background:#FFF4DC;color:#B26A00;border-radius:99px;padding:6px 12px;font-weight:700;font-size:11px}
+.pb{background:#111;color:#fff;border-radius:99px;padding:10px 16px;font-weight:700;font-size:13px}
+.info h2{font-size:20px;line-height:1.25;font-weight:700;margin:16px 0 6px}.big{font-size:26px;font-weight:700;line-height:1.1}.big small{font-size:14px;color:var(--mut);font-weight:500}
+.info p{border-top:1px solid var(--line);margin-top:16px;padding-top:16px;color:#33443C;white-space:pre-wrap}
+.tabs{display:flex;gap:8px;margin:16px 0 12px}.tb{flex:1;padding:10px 6px;border-radius:12px;background:#fff;border:1.5px solid var(--line);font-weight:600;font-size:13px}
+.tb.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 10%,#fff)}
+.accbox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px}
+.was{color:var(--mut);text-decoration:line-through;font:500 13px Figtree;margin-right:6px}.big .was{font-size:15px}
+.stars{color:#E8A317;letter-spacing:1px}.rv{border-top:1px solid var(--line);padding:12px 0}
+.star-in{display:flex;gap:6px;font-size:40px;justify-content:center;margin:14px 0}.star-in button{color:#CCD6D0}.star-in button.on{color:#E8A317}
+textarea{width:100%;padding:14px;border-radius:14px;border:1px solid var(--line);font:inherit}
+.zm{position:absolute;bottom:14px;right:14px;background:rgba(0,0,0,.55);color:#fff;border-radius:99px;padding:6px 12px;font-size:11px;font-weight:600}
+.pc{cursor:zoom-in}
+.vw{position:fixed;inset:0;background:#000;z-index:20;overflow:auto;display:grid;place-items:center}
+.vw img{max-width:100%;max-height:100vh;object-fit:contain;background:none}
+.vw.z{display:block}.vw.z img{max-width:none;max-height:none;width:220%}
+.vw button{position:fixed;top:calc(14px + env(safe-area-inset-top));right:14px;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.22);color:#fff;font-size:20px}
+.about{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}.about h3{font-size:16px;margin-bottom:8px}
+.desc{color:#2B3A33;line-height:1.75;font-size:14px}
+.desc.clamp{max-height:210px;overflow:hidden;-webkit-mask-image:linear-gradient(#000 60%,transparent);mask-image:linear-gradient(#000 60%,transparent)}
+.desc .ln{margin:0 0 10px}.desc h4{font:700 14px "Bricolage Grotesque";margin:16px 0 6px;color:var(--dk)}.desc b{font-weight:800;color:var(--ink)}
+.bl{list-style:none;padding:0;margin:0 0 12px}.bl li{position:relative;padding:8px 0 8px 32px;border-bottom:1px dashed var(--line)}
+.bl li:before{content:"✓";position:absolute;left:0;top:8px;width:21px;height:21px;border-radius:50%;background:#E4F1EB;color:var(--em);font-weight:800;font-size:12px;display:grid;place-items:center}
+.more{margin-top:10px;width:100%;padding:11px;border-radius:14px;background:#F1F4F2;font-weight:700;font-size:13px;color:var(--dk)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 12px 0}
+.sc{background:#fff;border:1px solid #EFE7D6;border-radius:18px;padding:14px}
+.sc small{display:block;color:var(--mut);font-weight:700;letter-spacing:.8px;text-transform:uppercase;font-size:10px;margin-bottom:5px}.sc b{font-size:13px}
+.up{position:fixed;right:18px;bottom:calc(22px + env(safe-area-inset-bottom));width:46px;height:46px;border-radius:50%;background:#8B5CF6;color:#fff;font-size:20px;box-shadow:0 10px 24px -8px rgba(139,92,246,.7);z-index:21}
+.card2{display:flex;gap:12px;background:#fff;border-radius:20px;padding:10px;border:1px solid var(--line);box-shadow:0 4px 16px -12px rgba(11,21,18,.35);cursor:pointer}
+.c2v{position:relative;flex:0 0 92px;aspect-ratio:3/4;border-radius:12px;overflow:hidden;background:#E9EFEB;align-self:flex-start}.c2v img{width:100%;height:100%;object-fit:contain}
+.c2b{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}.c2b h3{font-size:15px;line-height:1.25;font-weight:700}
+.c2d{color:var(--mut);font-size:12.5px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.c2p{display:flex;align-items:baseline;gap:6px}
+.dl{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:auto;background:#111;color:#fff;border-radius:99px;padding:9px 12px;font-weight:700;font-size:13px}
+</style></head>
+<body><div id="app"></div><div id="ov"></div>
+<script>
+const tg=window.Telegram?.WebApp;tg?.ready();tg?.expand();try{tg?.setHeaderColor("#064E3B");tg?.setBackgroundColor("#F4F6F3")}catch{}
+const qs=new URLSearchParams(location.search),$=s=>document.querySelector(s),CK="bifa_cache_v2";
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const I={en:{hi:"Hello",sub:"Find your next great read",search:"Search books and courses…",all:"All",shop:"Shop",lib:"My orders",buy:"Buy now",etb:"ETB",pop:"Popular",new:"New",launch:"Launch offer",more:"Read more",less:"Show less",about:"About this product",full:"Tap to view full cover",deliv:"Delivery",dl:"Download",delivV:"Instant in chat",sales:"Sales",creator:"Creator",rate:"⭐ Rate this product",rsend:"Submit review",rph:"Write your experience (optional)",rthx:"Thank you for your review!",rev:"Customer reviews",sold:"sold",view:"View",none:"Nothing here yet.",
+ how:"How do you want to pay?",amt:"Send exactly",copy:"Copy",copied:"Copied",bank:"Bank name you paid from",phone:"Phone number you paid with (Telebirr)",shot:"Tap to upload your payment screenshot",send:"Send payment",sending:"Sending…",
+ done:"Payment sent!",doneP:"We are checking your payment. Your product arrives here in the chat as soon as it is approved.",pending:"Under review",approved:"Delivered",rejected:"Rejected",close:"Close",
+ owned:"Check your Telegram chat for the files",wait:"Payment under review",need:"Fill in every field and add the screenshot",admin:"Admin",noord:"You have no orders yet."},
+ om:{hi:"Akkam jirta",sub:"Kitaaba ykn leenjii kee itti aanu argadhu",search:"Kitaaba ykn leenjii barbaadi…",all:"Hunda",shop:"Suuqa",lib:"Ajajoota koo",buy:"Amma bitadhu",etb:"Birr",pop:"Baayyee jaallatame",new:"Haaraa",launch:"Gatii jalqabaa",more:"Dabalata ilaali",less:"Gabaabsi",about:"Waa'ee product kanaa",full:"Cover guutuu ilaaluuf tuqi",deliv:"Dhiyeessa",dl:"Download",delivV:"Battalumatti chat keessatti",sales:"Gurgurtaa",creator:"Dhiyeessaa",rate:"⭐ Product kana madaali",rsend:"Yaada ergi",rph:"Muuxannoo kee barreessi (filannoo)",rthx:"Yaada keef galatoomi!",rev:"Yaada maamilootaa",sold:"gurgurame",view:"Ilaali",none:"Ammaaf homaa hin jiru.",
+ how:"Maaliin kaffaltu?",amt:"Kana qofa ergi",copy:"Waraabi",copied:"Waraabameera",bank:"Maqaa baankii itti fayyadamte",phone:"Lakkoofsa bilbilaa itti kaffalte (Telebirr)",shot:"Suuraa kaffaltii (screenshot) ol-kaa'uuf tuqi",send:"Kaffaltii ergi",sending:"Ergamaa jira…",
+ done:"Kaffaltiin ergameera!",doneP:"Kaffaltii kee mirkaneessaa jirra. Erga mirkanaa'ee booda product kee chat kana keessatti sitti ergama.",pending:"Ilaalamaa jira",approved:"Ergameera",rejected:"Didame",close:"Cufi",
+ owned:"Faayiloota kee chat Telegram keessatti ilaali",wait:"Kaffaltiin ilaalamaa jira",need:"Iddoo hunda guuti, screenshot dabaali",admin:"Admin",noord:"Ammaaf ajaja hin qabdu."}};
+let S={lang:qs.get("lang")||"en",cat:0,q:"",tab:"shop",products:[],cats:[],pay:{},orders:[],me:null,ready:false};const t=k=>I[S.lang][k];
+const num=n=>Number(n).toLocaleString(),money=n=>num(n)+" "+t("etb");
+async function api(p,o={}){const h={"X-Init-Data":tg?.initData||"",...(qs.get("dev")?{"X-Dev-User":qs.get("dev")}:{})};
+ const r=await fetch(API+p,{...o,headers:{...h,...(o.headers||{})}});if(!r.ok){let m=await r.text();try{m=JSON.parse(m).detail}catch{}throw new Error(m)}return r.json()}
+const status=id=>{const o=S.orders.filter(x=>x.product_id===id);return o.find(x=>x.status==="approved")?"approved":o.find(x=>x.status==="pending")?"pending":""};
+function apply(me,c,o){S.me=me;S.lang=me.lang||S.lang;S.products=c.products;S.cats=c.categories;S.pay=c.payment;S.orders=o;S.ready=true}
+function skeleton(){$("#app").innerHTML=`<div class=top><div class=bar><div class=who><i>·</i><div><h1>BIFA BOOKS</h1></div></div></div></div><div class=grid style="margin-top:20px">${'<div class=sk></div>'.repeat(4)}</div>`}
+async function init(){let k=null;try{k=JSON.parse(localStorage.getItem(CK))}catch{}
+ if(k){apply(k.me,k.c,k.o);render()}else skeleton();
+ try{const[me,c,o]=await Promise.all([api("/api/me"),api("/api/catalog"),api("/api/my/orders")]);
+  if(me.banned){$("#app").innerHTML="<p class=err style='padding:30px'>Account blocked.</p>";return}
+  const changed=!k||JSON.stringify([k.me,k.c,k.o])!==JSON.stringify([me,c,o]);
+  try{localStorage.setItem(CK,JSON.stringify({me,c,o}))}catch{}
+  apply(me,c,o);if(changed)render();
+  const x=S.products.find(z=>z.code===qs.get("p"));if(x)openProduct(x.id)}
+ catch(e){if(!k)$("#app").innerHTML=`<p class=err style="padding:30px">${esc(e.message)}</p>`}}
+function setLang(){S.lang=S.lang==="en"?"om":"en";api("/api/lang",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({lang:S.lang})}).catch(()=>{});render()}
+const catName=c=>S.lang==="om"?c.name_om:c.name_en;
+const IC={shop:'<svg width=20 height=20 viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round stroke-linejoin=round><path d="M4 7h16l-1.5 12h-13z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>',lib:'<svg width=20 height=20 viewBox="0 0 24 24" fill=none stroke=currentColor stroke-width=2 stroke-linecap=round stroke-linejoin=round><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>'};
+const im=(u,c="",e=0)=>u?`<img ${c?`class="${c}"`:""} src="${esc(u)}" alt="" decoding=async ${e?"fetchpriority=high":'loading=lazy'}>`:`<div class="${c}" style="background:linear-gradient(135deg,#0A7A58,#064E3B)"></div>`;
+function feat(p){return`<button class=feat onclick="openProduct('${p.id}')">${p.cover_url?`<img class=fbg src="${esc(p.cover_url)}" alt="" aria-hidden=true>`:""}${im(p.cover_url,"fc",1)}<div><span class=badge>${p.sales>0?"🔥 "+t("pop"):"✨ "+t("new")}</span><h2>${esc(p.title)}</h2><span class=cta onclick="${status(p.id)?"":`event.stopPropagation();checkout('${p.id}')`}">${status(p.id)?t(status(p.id)):"⬇ "+t("dl")+" · "+money(p.price)}</span></div></button>`}
+const BADGE=p=>p.badge==="new"?"✨ "+t("new"):p.badge==="launch"?"🚀 "+t("launch"):"";
+const was=p=>Number(p.old_price)>Number(p.price)?`<s class=was>${num(p.old_price)}</s>`:"";
+const plain=s=>String(s||"").replace(/\*\*/g,"").replace(/\s+/g," ").trim();
+function card(p){const s=status(p.id),b=BADGE(p);
+ const act=s?`<span class=own>${s==="approved"?"✅ ":"⏳ "}${t(s)}</span>`:`<span class=dl onclick="event.stopPropagation();checkout('${p.id}')">⬇ ${t("dl")} · ${num(p.price)} ${t("etb")}</span>`;
+ return`<div class=card2 onclick="openProduct('${p.id}')" role=button tabindex=0><div class=c2v>${im(p.cover_url)}${b?`<span class=tag style="background:var(--gold);color:var(--ink)">${b}</span>`:""}</div><div class=c2b><h3>${esc(p.title)}</h3>${p.reviews?`<div class=stars style="font-size:13px">★ ${p.rating} <span style="color:var(--mut)">(${p.reviews})</span></div>`:""}<div class=c2d>${esc(plain(p.description))}</div><div class=c2p>${was(p)}<span class=price>${num(p.price)}<small> ${t("etb")}</small></span></div>${act}</div></div>`}
+function render(){const nm=S.me?.name||"";let h=`<div class=top><div class=bar><div class=who><i>${esc((nm||"B")[0].toUpperCase())}</i><div><h1>${t("hi")}${nm?", "+esc(nm):""}</h1><small>${t("sub")}</small></div></div><div>${S.me?.is_admin?`<a class=pill href="admin.html${location.search}">${t("admin")}</a>`:""}<button class=pill onclick="setLang()">${S.lang==="en"?"Afaan Oromoo":"English"}</button></div></div>${S.tab==="shop"?`<input class=search id=q placeholder="${t("search")}" value="${esc(S.q)}" oninput="S.q=this.value;grid()">`:""}</div>`;
+ if(S.tab==="shop"){const top=[...S.products].sort((a,b)=>b.sales-a.sales).slice(0,5);
+  if(!S.q&&!S.cat&&top.length)h+=`<div class=hero>${top.map(feat).join("")}</div>`;
+  h+=`<div class=chips><button class="chip ${!S.cat?"on":""}" onclick="S.cat=0;render()">${t("all")}</button>${S.cats.map(c=>`<button class="chip ${S.cat===c.id?"on":""}" onclick="S.cat=${c.id};render()">${esc(catName(c))}</button>`).join("")}</div><div class=grid id=grid></div>`}
+ else h+=S.orders.length?S.orders.map(o=>`<div class=row>${o.products?.cover_url?`<img src="${esc(o.products.cover_url)}" alt="" loading=lazy>`:""}<div><b>${esc(o.products?.title||"")}</b><br><small style="color:var(--mut)">${esc(o.code)} · ${money(o.price)}</small>${o.reject_reason?`<br><small style="color:var(--red)">${esc(o.reject_reason)}</small>`:""}</div><span class="st ${o.status}">${t(o.status)}</span></div>`).join(""):`<p class=empty>${t("noord")}</p>`;
+ h+=`<nav><button class="${S.tab==="shop"?"on":""}" onclick="tab('shop')">${IC.shop}${t("shop")}</button><button class="${S.tab==="lib"?"on":""}" onclick="tab('lib')">${IC.lib}${t("lib")}</button></nav>`;
+ $("#app").innerHTML=h;if(S.tab==="shop")grid()}
+function tab(x){S.tab=x;tg?.HapticFeedback?.selectionChanged();render();scrollTo(0,0)}
+function grid(){const q=S.q.toLowerCase(),l=S.products.filter(p=>(!S.cat||p.category_id===S.cat)&&p.title.toLowerCase().includes(q));$("#grid").innerHTML=l.length?l.map(card).join(""):`<p class=empty>${t("none")}</p>`}
+const sheet=h=>{$("#ov").innerHTML=`<div class=ov onclick="if(event.target===this)closeSheet()"><div class=sheet role=dialog>${h}</div></div>`;document.body.style.overflow="hidden"};
+const closeSheet=()=>{$("#ov").innerHTML="";document.body.style.overflow=""};
+const BOT="BifaBooks_bot",CREATOR="@BifaBooks_bot";
+const page=h=>{$("#ov").innerHTML=`<div class=pg>${h}</div>`;document.body.style.overflow="hidden"};
+function shareP(id,mode){const p=S.products.find(x=>x.id===id),u=`https://t.me/${BOT}?start=${p.code}`;
+ if(mode){tg?tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(u)}&text=${encodeURIComponent(p.title)}`):window.open(u)}
+ else{navigator.clipboard?.writeText(u);tg?.HapticFeedback?.notificationOccurred("success");event.currentTarget.textContent="✓"}}
+function stars(n){const k=Math.round(n);return"★".repeat(k)+"☆".repeat(5-k)}
+function openProduct(id){const p=S.products.find(x=>x.id===id),s=status(id),b=BADGE(p);tg?.HapticFeedback?.impactOccurred("light");
+ const buy=s?`<button class=cta2 onclick="tg?.close()">${s==="approved"?"✅ "+t("owned"):"⏳ "+t("wait")}</button>`:`<button class=cta2 onclick="checkout('${id}')">⬇ ${t("dl")} · ${money(p.price)}</button>`;
+ const rate=s==="approved"?`<button class=cta2 style="background:#fff;color:var(--ink);border:1px solid var(--line);margin-top:10px" onclick="rateP('${id}')">${t("rate")}</button>`:"";
+ page(`<button class=bk onclick="closeSheet()" aria-label="${t("close")}">←</button>
+ <div class=hero2>${p.cover_url?`<img class=fbg src="${esc(p.cover_url)}" alt="" aria-hidden=true>`:""}<span class="bd l">${b||"⚡ DIGITAL"}</span>${p.sales>0?`<span class="bd r">● ${p.sales} ${t("sold")}</span>`:""}${p.cover_url?`<img class=pc src="${esc(p.cover_url)}" alt="" fetchpriority=high onclick="viewCover('${id}')"><span class=zm>⤢ ${t("full")}</span>`:""}</div>
+ ${buy}${rate}<div class=shr><button onclick="shareP('${id}',0)" aria-label="Copy link">🔗</button><button onclick="shareP('${id}',1)" aria-label="Share">📤</button></div>
+ <div class=info><div class=rw><span class=dg>⚡ DIGITAL</span>${s?"":`<button class=pb onclick="checkout('${id}')">${money(p.price)}</button>`}</div><h2>${esc(p.title)}</h2><div class=big>${was(p)}${num(p.price)} <small>${t("etb")}</small></div>
+ ${p.reviews?`<div class=stars style="margin-top:6px">${stars(p.rating)} <b style="color:var(--ink)">${p.rating}</b> <span style="color:var(--mut)">· ${p.reviews}</span></div>`:""}${descHtml(p.description)}<div id=rv></div></div><div class=stats><div class=sc><small>${t("deliv")}</small><b>⚡ ${t("delivV")}</b></div><div class=sc><small>${t("sales")}</small><b>🌐 ${p.sales>0?p.sales+" "+t("sold"):t("new")}</b></div><div class=sc><small>${t("creator")}</small><b style="color:#7C3AED">${CREATOR}</b></div></div><button class=up aria-label="Top" onclick="$('.pg').scrollTo({top:0,behavior:'smooth'})">↑</button>`);loadRv(id)}
+async function loadRv(id){try{const r=await api("/api/reviews/"+id);if(!r.length||!$("#rv"))return;$("#rv").innerHTML=`<h3 style="margin:6px 0">${t("rev")}</h3>`+r.map(x=>`<div class=rv><span class=stars>${stars(x.rating)}</span> <b>${esc(x.name)}</b>${x.text?`<div>${esc(x.text)}</div>`:""}</div>`).join("")}catch{}}
+let R={};
+function rateP(id){R={id,n:5,t:""};drawRate()}
+function drawRate(msg=""){sheet(`<div class=sb><h2>${esc(S.products.find(x=>x.id===R.id).title)}</h2><div class=star-in>${[1,2,3,4,5].map(i=>`<button class="${i<=R.n?"on":""}" onclick="R.t=$('#rt').value;R.n=${i};drawRate()" aria-label="${i}">★</button>`).join("")}</div><textarea id=rt rows=3 placeholder="${t("rph")}">${esc(R.t)}</textarea><p class=err>${esc(msg)}</p><button class=btn onclick="sendRate()">${t("rsend")}</button><button class="btn alt" onclick="openProduct('${R.id}')">${t("close")}</button></div>`)}
+async function sendRate(){R.t=$("#rt").value;try{await api("/api/reviews",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({product_id:R.id,rating:R.n,text:R.t})});const c=await api("/api/catalog");S.products=c.products;tg?.HapticFeedback?.notificationOccurred("success");sheet(`<div class=sb><div class=ok><div class=tick>★</div><h2>${t("rthx")}</h2></div><button class=btn onclick="openProduct('${R.id}')">${t("close")}</button></div>`)}catch(e){drawRate(e.message)}}
+const BR={cbe:["CBE","#7B2D8E"],awash:["Awash Bank","#1F5FA8"],telebirr:["Telebirr","#1BA24B"]};let C={};
+const saved=()=>{try{return JSON.parse(localStorage.getItem("bifa_payer"))||{}}catch{return{}}};
+function savePayer(v){C.info=v;const s=saved();s[C.method]=v;try{localStorage.setItem("bifa_payer",JSON.stringify(s))}catch{}}
+function checkout(id){const k=Object.keys(S.pay)[0];C={id,method:k,file:null,info:saved()[k]||""};drawCheckout()}
+function setM(k){C.method=k;C.info=saved()[k]||"";drawCheckout()}
+function drawCheckout(msg=""){const p=S.products.find(x=>x.id===C.id),a=S.pay[C.method]||{};
+ sheet(`<div class=sb><h2>${esc(p.title)}</h2><div class=big style="color:var(--em)">${num(p.price)} <small>${t("etb")}</small></div>
+ <div class=tabs>${Object.keys(S.pay).map(k=>`<button class="tb ${C.method===k?"on":""}" style="--c:${BR[k]?.[1]||"#888"}" onclick="setM('${k}')">${BR[k]?.[0]||k}</button>`).join("")}</div>
+ <div class=accbox><small style="color:var(--mut)">${esc(a.holder)}</small><div class=acc><div>${esc(a.account)}</div><span onclick="navigator.clipboard?.writeText('${esc(a.account)}');this.textContent='${t("copied")}'">${t("copy")}</span></div><small>${t("amt")}: <b>${money(p.price)}</b></small></div>
+ <label>${C.method==="telebirr"?t("phone"):t("bank")}</label><input type=text id=pi value="${esc(C.info||"")}" oninput="savePayer(this.value)" ${C.method==="telebirr"?"inputmode=tel":""}>
+ <label>Screenshot</label><label class=drop>${C.file?`<img src="${C.url}" alt="">`:t("shot")}<input type=file accept="image/*" hidden onchange="pick(this.files[0])"></label>
+ <p class=err>${esc(msg)}</p><button class=btn id=go onclick="submitOrder()">${t("send")}</button><button class="btn alt" onclick="openProduct('${C.id}')">${t("close")}</button></div>`)}
+const keep=()=>{C.info=$("#pi")?.value??C.info};
+async function shrink(f){try{const b=await createImageBitmap(f),s=Math.min(1,1400/Math.max(b.width,b.height)),c=document.createElement("canvas");c.width=b.width*s;c.height=b.height*s;c.getContext("2d").drawImage(b,0,0,c.width,c.height);return await new Promise(r=>c.toBlob(r,"image/jpeg",.82))||f}catch{return f}}
+async function pick(f){if(!f)return;keep();C.file=await shrink(f);C.url=URL.createObjectURL(C.file);drawCheckout()}
+async function submitOrder(){keep();if(!C.info||C.info.trim().length<3||!C.file)return drawCheckout(t("need"));
+ const b=$("#go");b.disabled=true;b.textContent=t("sending");const fd=new FormData();fd.append("product_id",C.id);fd.append("method",C.method);fd.append("payer_info",C.info);fd.append("screenshot",C.file,"payment.jpg");
+ try{const r=await api("/api/orders",{method:"POST",body:fd});S.orders=await api("/api/my/orders");tg?.HapticFeedback?.notificationOccurred("success");
+  sheet(`<div class=sb><div class=ok><div class=tick>✓</div><h2>${t("done")}</h2><b>${esc(r.code)}</b><p>${t("doneP")}</p></div><button class=btn onclick="closeSheet();render()">${t("close")}</button></div>`)}
+ catch(e){drawCheckout(e.message)}}
+function descHtml(raw){const f=s=>esc(s).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");
+ const L=String(raw||"").replace(/\r/g,"").split("\n");let h="",ul=false;const close=()=>{if(ul){h+="</ul>";ul=false}};
+ for(let l of L){l=l.trim();if(!l){close();continue}
+  let m=l.match(/^(?:[-•*]|\d+[.)])\s+(.+)$/)||l.match(/^(?:[✅✔☑➤▪●📌🔹🔸⭐👉]\uFE0F?)\s*(.+)$/);
+  if(m){if(!ul){h+="<ul class=bl>";ul=true}h+=`<li>${f(m[1])}</li>`;continue}
+  close();
+  if(/^\*\*.+\*\*$/.test(l)||(/[:：፦?፧]$/.test(l)&&l.length<70)){h+=`<h4>${f(l.replace(/^\*\*|\*\*$/g,"").replace(/[:：፦]$/,""))}</h4>`;continue}
+  m=l.match(/^([^:：፦]{2,40}?)[:：፦]-?\s+(.+)$/);
+  h+=m?`<div class=ln><b>${f(m[1])}:</b> ${f(m[2])}</div>`:`<div class=ln>${f(l)}</div>`}
+ close();const long=String(raw||"").length>320;
+ return`<div class=about><h3>${t("about")}</h3><div class="desc ${long?"clamp":""}" id=desc>${h}</div>${long?`<button class=more onclick="const d=$('#desc');d.classList.toggle('clamp');this.textContent=d.classList.contains('clamp')?'${t("more")}':'${t("less")}'">${t("more")}</button>`:""}</div>`}
+function viewCover(id){const p=S.products.find(x=>x.id===id);if(!p?.cover_url)return;const d=document.createElement("div");d.className="vw";
+ d.innerHTML=`<img src="${esc(p.cover_url)}" alt=""><button aria-label="${t("close")}">✕</button>`;
+ d.onclick=e=>{if(e.target.tagName==="IMG"){d.classList.toggle("z");return}d.remove()};document.body.appendChild(d)}
+init();
+</script></body></html>

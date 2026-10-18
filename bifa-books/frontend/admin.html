@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>BIFA BOOKS · Admin</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<style>
+:root{--bg:#F2F5F3;--ink:#0E1F19;--mut:#5E6F67;--em:#0B6B4F;--gold:#F2B01E;--line:#DDE5E0;--red:#C23B2A}
+*{box-sizing:border-box;margin:0}body{font:15px/1.45 Figtree,system-ui,sans-serif;background:var(--bg);color:var(--ink);max-width:980px;margin:auto;padding:16px 16px 60px}
+h1,h2,.big{font-family:"Bricolage Grotesque",sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid var(--gold)}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}h1{font-size:24px}
+.tabs{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto}.tabs button{border:1px solid var(--line);background:#fff;padding:9px 16px;border-radius:99px;font-weight:700}.tabs .on{background:var(--ink);color:#fff}
+.box{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
+.order{display:grid;grid-template-columns:130px 1fr;gap:14px}.order img{width:130px;height:170px;object-fit:cover;border-radius:10px;cursor:zoom-in;background:#E4EAE6}
+.order dl{display:grid;grid-template-columns:auto 1fr;gap:2px 10px}dt{color:var(--mut)}dd{font-weight:700;word-break:break-word}
+.act{display:flex;gap:8px;margin-top:10px}.b{border:0;border-radius:12px;padding:11px 18px;font-weight:800;background:var(--em);color:#fff}.b.no{background:#fff;color:var(--red);border:1px solid var(--red)}.b.g{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px}.tile{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}.tile .big{font-size:26px;font-weight:800;color:var(--em)}
+.bars{display:flex;align-items:flex-end;gap:8px;height:140px}.bars div{flex:1;background:var(--em);border-radius:8px 8px 0 0;min-height:3px;position:relative}.bars small{position:absolute;bottom:-18px;left:0;right:0;text-align:center;color:var(--mut);font-size:11px}
+.f{display:grid;grid-template-columns:1fr 1fr;gap:8px}.f .w{grid-column:1/-1}input,select,textarea{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px}
+.pill{font-size:12px;font-weight:800;padding:3px 10px;border-radius:99px;background:#E4EAE6}.msg{color:var(--mut);padding:20px;text-align:center}
+#zoom{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:9}#zoom img{max-width:96%;max-height:92%}
+@media(max-width:520px){.order{grid-template-columns:1fr}.order img{width:100%;height:220px}}
+</style></head><body>
+<div class="top"><h1>BIFA BOOKS · Admin</h1><a href="index.html" id="back" style="font-weight:700;color:var(--em)">← Shop</a></div>
+<div class="tabs" id="tabs"></div><div id="v"></div><div id="zoom" onclick="this.style.display='none'"><img alt=""></div>
+<script>
+const tg=window.Telegram?.WebApp;tg?.ready();tg?.expand();const qs=new URLSearchParams(location.search);
+document.getElementById("back").href="index.html"+location.search;
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money=n=>Number(n).toLocaleString()+" ETB",$=s=>document.querySelector(s);
+async function api(p,o={}){const h={"X-Init-Data":tg?.initData||"",...(qs.get("dev")?{"X-Dev-User":qs.get("dev")}:{}),...(o.json?{"Content-Type":"application/json"}:{})};
+ const r=await fetch(API+p,{method:o.method||"GET",headers:h,body:o.json?JSON.stringify(o.json):undefined});if(!r.ok){let m=await r.text();try{m=JSON.parse(m).detail}catch{}throw new Error(m)}return r.json()}
+const TABS=["Orders","Products","Stats","Settings","Reviews"];let tab=0,filter="pending";
+function tabs(){$("#tabs").innerHTML=TABS.map((n,i)=>`<button class="${i===tab?"on":""}" onclick="tab=${i};go()">${n}</button>`).join("")}
+async function go(){tabs();$("#v").innerHTML='<p class=msg>Loading…</p>';try{await[orders,products,stats,settings,reviews][tab]()}catch(e){$("#v").innerHTML=`<p class=msg style="color:var(--red)">${esc(e.message)}</p>`}}
+const zoom=u=>{$("#zoom img").src=u;$("#zoom").style.display="flex"};
+async function orders(){const rows=await api("/api/admin/orders?status="+filter);
+ $("#v").innerHTML=`<div class=box><select onchange="filter=this.value;go()">${["pending","approved","rejected"].map(s=>`<option ${s===filter?"selected":""}>${s}</option>`).join("")}</select></div>`+
+ (rows.length?rows.map(o=>`<div class="box order"><img src="${esc(o.screenshot_url||"")}" alt="payment" onclick="zoom(this.src)"><div><dl>
+ <dt>Order</dt><dd>${esc(o.code)}</dd><dt>Product</dt><dd>${esc(o.products?.title)}</dd><dt>Price</dt><dd>${money(o.price)}</dd>
+ <dt>Method</dt><dd>${esc(o.method.toUpperCase())}</dd><dt>Paid with</dt><dd>${esc(o.payer_info)}</dd>
+ <dt>Customer</dt><dd>${esc(o.users?.first_name)} ${o.users?.username?"@"+esc(o.users.username):""}</dd><dt>Time</dt><dd>${new Date(o.created_at).toLocaleString()}</dd></dl>
+ ${o.status==="pending"?`<div class=act><button class=b onclick="decide('${o.id}',true)">Approve</button><button class="b no" onclick="decide('${o.id}',false)">Reject</button></div>`:`<span class=pill>${o.status}${o.reject_reason?": "+esc(o.reject_reason):""}</span>`}</div></div>`).join(""):'<p class=msg>No orders.</p>')}
+async function decide(id,approve){let reason;if(!approve){reason=prompt("Reason for rejection (sent to customer):");if(reason===null)return}
+ try{await api(`/api/admin/orders/${id}/decide`,{method:"POST",json:{approve,reason}});go()}catch(e){alert(e.message)}}
+async function products(){const[ps,cs]=await Promise.all([api("/api/admin/products"),api("/api/catalog").catch(()=>({categories:[]}))]);
+ $("#v").innerHTML=`<p class=msg>Add new products in the bot with /addproduct</p>`+ps.map(p=>`<div class=box id="p${p.id}"><div class=f>
+ <input class="w" data-k=title value="${esc(p.title)}"><input data-k=price type=number value="${p.price}"><input data-k=old_price type=number placeholder="Old price (crossed out)" value="${p.old_price??""}"><select data-k=badge><option value="">No badge</option>${["new","launch"].map(b=>`<option ${b===p.badge?"selected":""}>${b}</option>`).join("")}</select>
+ <select data-k=status>${["draft","published","archived"].map(s=>`<option ${s===p.status?"selected":""}>${s}</option>`).join("")}</select>
+ <select data-k=category_id class=w><option value="">No category</option>${cs.categories.map(c=>`<option value="${c.id}" ${c.id===p.category_id?"selected":""}>${esc(c.name_en)}</option>`).join("")}</select>
+ <textarea class="w" data-k=description rows=3>${esc(p.description)}</textarea></div>
+ <div class=act><button class=b onclick="saveP('${p.id}')">Save</button><button class="b no" onclick="delP('${p.id}')">Delete</button><span class=pill>${p.product_files.length} file(s) · ${p.sales} sold · ${esc(p.code)}</span></div></div>`).join("")}
+async function saveP(id){const j={};document.querySelectorAll(`#p${id} [data-k]`).forEach(e=>j[e.dataset.k]=e.value);j.price=+j.price;j.old_price=j.old_price?+j.old_price:null;j.badge=j.badge||null;j.category_id=j.category_id?+j.category_id:null;
+ try{await api("/api/admin/products/"+id,{method:"PATCH",json:j});alert("Saved")}catch(e){alert(e.message)}}
+async function delP(id){if(confirm("Delete this product?")){await api("/api/admin/products/"+id,{method:"DELETE"});go()}}
+async function stats(){const s=await api("/api/admin/stats"),m=Math.max(...s.series.map(x=>x.v),1);
+ $("#v").innerHTML=`<div class=tiles><div class=tile>Revenue<div class=big>${money(s.revenue)}</div></div><div class=tile>Today<div class=big>${money(s.today)}</div></div>
+ <div class=tile>Pending<div class=big>${s.counts.pending}</div></div><div class=tile>Customers<div class=big>${s.customers}</div></div></div>
+ <div class=box><b>Last 7 days</b><div class=bars style="margin:14px 0 26px">${s.series.map(x=>`<div style="height:${x.v/m*100}%" title="${money(x.v)}"><small>${x.d.slice(5)}</small></div>`).join("")}</div></div>
+ <div class=box><b>Best sellers</b>${s.top.map(([n,c])=>`<p>${esc(n)} — ${c}</p>`).join("")||'<p class=msg>No sales yet.</p>'}</div>`}
+async function settings(){const c=await api("/api/catalog"),p=c.payment;
+ $("#v").innerHTML=`<div class=box><b>Payment accounts shown to customers</b>${["cbe","awash","telebirr"].map(k=>`<div class=f style="margin-top:10px" data-m=${k}><input class=w disabled value="${k.toUpperCase()}"><input data-f=account placeholder="Account / phone" value="${esc(p[k]?.account)}"><input data-f=holder placeholder="Account holder" value="${esc(p[k]?.holder)}"></div>`).join("")}
+ <div class=act><button class=b onclick="savePay()">Save accounts</button></div></div>
+ <div class=box><b>Message all customers</b><textarea id=bc rows=3 style="margin:8px 0"></textarea><button class=b onclick="bcast()">Send</button></div>`}
+async function savePay(){const v={};document.querySelectorAll("[data-m]").forEach(d=>{v[d.dataset.m]={account:d.querySelector("[data-f=account]").value.trim(),holder:d.querySelector("[data-f=holder]").value.trim()}});
+ try{await api("/api/admin/payment",{method:"PUT",json:v});alert("Saved")}catch(e){alert(e.message)}}
+async function bcast(){const text=$("#bc").value;if(!text.trim()||!confirm("Send to ALL customers?"))return;try{const r=await api("/api/admin/broadcast",{method:"POST",json:{text}});alert("Sending to "+r.queued+" customers");$("#bc").value=""}catch(e){alert(e.message)}}
+async function reviews(){const rs=await api("/api/admin/reviews");
+ $("#v").innerHTML=rs.length?rs.map(r=>`<div class=box><b>${"★".repeat(r.rating)}${"☆".repeat(5-r.rating)}</b> ${esc(r.name)} · <span class=pill>${esc(r.products?.title)}</span><p style="margin:6px 0">${esc(r.text)}</p><button class="b no" onclick="delRv('${r.id}')">Delete</button></div>`).join(""):'<p class=msg>No reviews yet. Customers can review after their payment is approved.</p>'}
+async function delRv(id){if(confirm("Delete this review?")){await api("/api/admin/reviews/"+id,{method:"DELETE"});go()}}
+go();
+</script></body></html>

@@ -1,0 +1,18 @@
+# secrets (BOT_TOKEN, Supabase key) GitHub irratti gonkumaa hin ol-kaʼin
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Editor / OS
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Node (yoo itti fayyadamte)
+node_modules/
